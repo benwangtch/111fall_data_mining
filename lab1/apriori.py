@@ -14,7 +14,7 @@ from collections import defaultdict
 from optparse import OptionParser
 
 def subsets(arr):
-    """ Returns non empty subsets of arr"""
+    """ Returns non empty subsets of arr, """
     return chain(*[combinations(arr, i + 1) for i, a in enumerate(arr)])
 
 
@@ -38,7 +38,7 @@ def returnItemsWithMinSupport(itemSet, transactionList, minSupport, freqSet):
 
     return _itemSet
 
-# 得到itemset的組合
+
 def joinSet(itemSet, length):
     """Join a set with itself and returns the n-element itemsets"""
     return set(
