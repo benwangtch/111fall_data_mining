@@ -81,15 +81,15 @@ def runApriori(data_iter, minSupport):
     while currentLSet != set([]):    
         largeSet[k - 1] = currentLSet
         currentLSet = joinSet(currentLSet, k)
-        clsnum = len(currentLSet) #before prune
+        
         currentCSet= returnItemsWithMinSupport(
             currentLSet, transactionList, minSupport, freqSet
         )
         print(currentCSet)
-        ccsnum = len(currentCSet) #after prune
+        
 
         currentLSet = currentCSet
-        f2.write("%s\t%s\t%s\n"%(iteration, clsnum, ccsnum))
+        
         k = k + 1
         iteration += 1
 
@@ -99,10 +99,31 @@ def runApriori(data_iter, minSupport):
 
     toRetItems = []
     for key, value in largeSet.items():
-        toRetItems.extend([(tuple(item), getSupport(item)) for item in value])
-
+        
+        toRetItems.extend([(tuple(item), getSupport(item)) for item in value]) # the list with all frequent itemsets
+        
+    for x, y in toRetItems:
+        targetSet = set(x)
+        freq = y
+        isClosedfq = True
+        for p, q in toRetItems:
+            compareSet = set(p)
+            comparingfreq = q
+            if targetSet == compareSet:
+                continue
+            if  isImmediateSuperSet(targetSet, compareSet): # if is immediate superset
+                if comparingfreq == freq: #and the frequent is the same, means it is not a closed frequent set
+                    isClosedfq = False # set it to false
+                    break
+        if not isClosedfq: # kick the itemset which is not closed
+            toRetItems.Remove(x)
     return toRetItems
 
+def isImmediateSuperSet(smallSet, largeSet): # is immediate super set or not
+    if largeSet.issuperset(smallSet):
+        if len(largeSet) - len(smallSet) == 1:
+            return True
+    return False
 
 def printResults(items, minSu, thefile):
     """prints the generated itemsets sorted by support """
@@ -166,12 +187,10 @@ if __name__ == "__main__":
     minSu = options.minS*100
     thefile = options.input
 
-    f2 = open("step2_task1_%s_%.1f_result2.txt"%(thefile, minSu), "w+") #result2 file write
     items = runApriori(inFile, minSupport)
     
     cnt = printResults(items, minSu, thefile) # total items
     total_time= time.time() - start_time # total computation time
     
-    f2.write("%s\n"%str(cnt))
-    f2.write("The total computation time is : %s seconds"%total_time)
+    
     print("The total computation time is :",total_time, " seconds")
