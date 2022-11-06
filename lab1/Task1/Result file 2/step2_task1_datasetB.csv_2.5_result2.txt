@@ -1,0 +1,3 @@
+1	4186	0
+92
+The total computation time is : 75.2243344783783 seconds

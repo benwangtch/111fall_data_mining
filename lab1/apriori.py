@@ -110,7 +110,7 @@ def printResults(items, minSu, thefile):
     cnt = 0
 
     for item, support in sorted(items, key=lambda x: x[1]):
-        print("item: %s , %.3f" % (str(item), support))
+        # print("item: %s , %.3f" % (str(item), support))
         f1.write("%.1f\t%s\n" % (support*100, str(item)))
         cnt+=1
     

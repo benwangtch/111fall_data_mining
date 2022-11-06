@@ -12,7 +12,6 @@ import time
 from itertools import chain, combinations
 from collections import defaultdict
 from optparse import OptionParser
-
 def subsets(arr):
     """ Returns non empty subsets of arr, """
     return chain(*[combinations(arr, i + 1) for i, a in enumerate(arr)])
@@ -127,11 +126,11 @@ def isImmediateSuperSet(smallSet, largeSet): # is immediate super set or not
 
 def printResults(items, minSu, thefile):
     """prints the generated itemsets sorted by support """
-    f1= open("step2_task1_%s_%.1f_result1.txt"%(thefile, minSu), "w+")
+    f1= open("step2_task2_%s_%.1f_result1.txt"%(thefile, minSu), "w+")
     cnt = 0
 
     for item, support in sorted(items, key=lambda x: x[1]):
-        print("item: %s , %.3f" % (str(item), support))
+        # print("item: %s , %.3f" % (str(item), support))
         f1.write("%.1f\t%s\n" % (support*100, str(item)))
         cnt+=1
     
